@@ -1,0 +1,148 @@
+body {
+    margin: 0;
+    overflow: hidden;
+}
+
+ul li {
+    list-style-type: none;
+}
+
+.wrap {
+    width: 80%;
+    margin: 0 auto;
+    height: 100%;
+}
+
+.info_container {
+    display: none;
+}
+
+.album_item {
+    float: left;
+    width: 200px;
+    height: 100px;
+    margin-right: 10px
+
+}
+
+.album_item img {
+
+    width: 100%;
+    height: 100%;
+
+    cursor: pointer;
+}
+
+#big_img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(21, 36, 56, 0.7);
+    display: none;
+    z-index: 100500;
+}
+
+.left_arrow, .right_arrow {
+    position: absolute;
+    cursor: pointer;
+
+    top: 50%;
+    width: 65px;
+    border-radius: 50%;
+}
+
+.left_arrow:hover, .right_arrow:hover {
+    background-color: rgba(40, 140, 40, 0.4);
+}
+
+.left_arrow img, .right_arrow img {
+    width: 100%;
+}
+
+.left_arrow {
+    left: 25px;
+}
+
+.right_arrow {
+    right: 25px;
+}
+
+.close {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    width: 30px;
+    cursor: pointer;
+}
+
+.close img {
+    width: 100%;
+}
+
+.info {
+    position: absolute;
+    bottom: 17px;
+    right: 15px;
+}
+
+.info_pict {
+    width: 40px;
+    height: 40px;
+    background-image: url('img/information.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    float: right;
+    cursor: pointer;
+}
+
+.text_info {
+    width: 350px;
+    display: none;
+    text-align: right;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.shake {
+    transform-origin: top center;
+    animation-name: shake;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+}
+
+.img_zoom {
+    display: block;
+    max-width: 80%;
+    margin: 100px auto;
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateZ(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translate3d(-2px, 0, 0);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translate3d(2px, 0, 0);
+    }
+}
+
+.image_cont {
+    overflow:hidden;
+    width: 100%;
+
+}
+
+.image_cont img {
+    -moz-transition: all 1s ease-out;
+    -o-transition: all 1s ease-out;
+    -webkit-transition: all 1s ease-out;
+}
+
+.image_cont img:hover{
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -o-transform: scale(1.1);
+}
