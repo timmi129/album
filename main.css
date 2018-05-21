@@ -49,10 +49,11 @@ ul li {
     top: 50%;
     width: 65px;
     border-radius: 50%;
+    background-color: rgba(27, 149, 27, 0.4);
 }
 
 .left_arrow:hover, .right_arrow:hover {
-    background-color: rgba(40, 140, 40, 0.4);
+    background-color: rgba(30, 123, 30, 0.6);
 }
 
 .left_arrow img, .right_arrow img {
@@ -145,4 +146,25 @@ ul li {
     -webkit-transform: scale(1.1);
     -moz-transform: scale(1.1);
     -o-transform: scale(1.1);
+}
+
+.loop_p,.loop_m{
+    position: absolute;
+    width: 42px;
+    height: 45px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    bottom: 15px;
+    cursor: pointer;
+
+}
+
+.loop_p{
+    background-image: url("img/loop_p.png");
+    left: 25px;
+}
+
+.loop_m{
+    background-image: url("img/loop_m.png");
+    left: 77px;
 }

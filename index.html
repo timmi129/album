@@ -9,30 +9,10 @@
 <body>
 
 
-<!--<p><img id="largeImg" src="https://js.cx/gallery/img1-lg.jpg" alt="Large image"></p>-->
-
-<!--<ul id="thumbs">-->
-    <!--&lt;!&ndash; При наведении на изображение показывается встроенная подсказка браузера (title) &ndash;&gt;-->
-    <!--<li>-->
-        <!--<a href="https://js.cx/gallery/img2-lg.jpg" title="Image 2" class="item_image"><img  src="https://js.cx/gallery/img2-thumb.jpg"></a>-->
-    <!--</li>-->
-    <!--<li>-->
-        <!--<a href="https://js.cx/gallery/img3-lg.jpg" title="Image 3" class="item_image"><img  src="https://js.cx/gallery/img3-thumb.jpg"></a>-->
-    <!--</li>-->
-    <!--<li>-->
-        <!--<a href="https://js.cx/gallery/img4-lg.jpg" title="Image 4" class="item_image"><img  src="https://js.cx/gallery/img4-thumb.jpg"></a>-->
-    <!--</li>-->
-    <!--<li>-->
-        <!--<a href="https://js.cx/gallery/img5-lg.jpg" title="Image 5" class="item_image"><img  src="https://js.cx/gallery/img5-thumb.jpg"></a>-->
-    <!--</li>-->
-    <!--<li>-->
-        <!--<a href="https://js.cx/gallery/img6-lg.jpg" title="Image 6" class="item_image"><img  src="https://js.cx/gallery/img6-thumb.jpg"></a>-->
-    <!--</li>-->
-<!--</ul>-->
 
 
 <div id="big_img">
-    <img class="img_zoom" src = "https://js.cx/gallery/img2-lg.jpg"  > </img>
+    <img class="img_zoom" id="img_zoom" src = "https://js.cx/gallery/img2-lg.jpg"  > </img>
     <div class="info">
         <div class="text_info ">
             21512512521215 21512512521215 21512512521215
@@ -53,6 +33,13 @@
     </div>
     <div class="close">
         <img  src = "C:\wamp64\www\album\img/close.png"  onClick = "javascript: close_big_img()" />
+    </div>
+
+    <div class="loop_p" onClick = "javascript: loop_plus()">
+
+    </div>
+    <div class="loop_m" onClick = "javascript: loop_minus()">
+
     </div>
 </div>
 
