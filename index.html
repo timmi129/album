@@ -2,8 +2,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>124</title>
-    <link rel="stylesheet" type="text/css" href="main.css">
-    <script src="jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+    <script src="js/jquery.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 
 </head>
 <body>
@@ -11,81 +13,80 @@
 
 
 
+
 <div id="big_img">
-    <img class="img_zoom" id="img_zoom" src = "https://js.cx/gallery/img2-lg.jpg"  > </img>
+    <img class="img_zoom" id="img_zoom" src=""> </img>
     <div class="info">
         <div class="text_info ">
-            21512512521215 21512512521215 21512512521215
-            21512512521215 21512512521215
+
         </div>
         <div class="info_pict shake">
 
         </div>
 
 
+    </div>
+    <div class="left_arrow" onClick="javascript: left_arrow()">
 
     </div>
-    <div class="left_arrow">
-        <img  src = "C:\wamp64\www\album\img/back.png"   onClick = "javascript: left_arrow()" />
-    </div>
-    <div class="right_arrow">
-        <img  src = "C:\wamp64\www\album\img/next.png"  onClick = "javascript: right_arrow()" />
-    </div>
-    <div class="close">
-        <img  src = "C:\wamp64\www\album\img/close.png"  onClick = "javascript: close_big_img()" />
-    </div>
-
-    <div class="loop_p" onClick = "javascript: loop_plus()">
+    <div class="right_arrow" onClick="javascript: right_arrow()">
 
     </div>
-    <div class="loop_m" onClick = "javascript: loop_minus()">
+    <div class="close" onClick="javascript: close_big_img()">
+
+    </div>
+
+    <div class="loop_p" onClick="javascript: loop_plus()">
+
+    </div>
+    <div class="loop_m" onClick="javascript: loop_minus()">
 
     </div>
 </div>
 
 
 <div class="wrap">
-    <ul class="album_items">
-        <li class="album_item">
-            <div class="image_cont ">
-                <img  src="http://fotorelax.ru/wp-content/uploads/2016/02/Beautiful-photos-and-pictures-on-different-topics-01.jpg" alt="" class="img_item" onclick="click_img(11)">
+    <div class="filter_container">
+        <div id="time-range">
+            <p>Time Range: <span class="slider-time"></span> - <span class="slider-time2"></span>
+            </p>
+            <div class="sliders_step1">
+                <div id="slider-range"></div>
             </div>
+        </div>
 
-            <div class="info_container">
-                124124214
-            </div>
-        </li>
-        <li class="album_item">
-            <div class="image_cont ">
-              <img src="https://js.cx/gallery/img3-lg.jpg" alt="" class="img_item" onclick="click_img(22)">
-            </div>
-            <div class="info_container">
-                124124214
-            </div>
-        </li>
-        <li class="album_item">
-            <div class="image_cont ">
-             <img src="https://js.cx/gallery/img4-lg.jpg" alt="" class="img_item" onclick="click_img(33)">
-            </div>
-            <div class="info_container">
-                124124214
-            </div>
-        </li>
-        <li class="album_item">
-            <div class="image_cont ">
-              <img src="https://js.cx/gallery/img5-lg.jpg" alt="" class="img_item" onclick="click_img(44)">
-            </div>
-            <div class="info_container">
-                124124214
-            </div>
-        </li>
+        <div class="search_button" onClick="javascript: search()">
+            Найти!
+        </div>
 
-    </ul>
+    </div>
+
+    <div class="album_container">
+
+
+        <!--<ul class="album_items">-->
+            <!--<li class="album_item">-->
+                <!--<div class="image_cont ">-->
+                    <!--<img src="http://fotorelax.ru/wp-content/uploads/2016/02/Beautiful-photos-and-pictures-on-different-topics-01.jpg"-->
+                         <!--alt="" class="img_item" onclick="click_img(11)">-->
+                <!--</div>-->
+
+                <!--<div class="info_container">-->
+                    <!--124124214-->
+                <!--</div>-->
+            <!--</li>-->
+
+        <!--</ul>-->
+    </div>
+    <div class="pagination_container">
+
+    </div>
 </div>
 
 
 
-<script src="main.js"></script>
+<script src="js/main.js"></script>
+
 </body>
 </html>
 
