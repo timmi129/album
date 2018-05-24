@@ -23,6 +23,7 @@ var max_date = null;
 var page_numb = 9;
 var pagination_pages = 0;
 var loader_flag = false;
+var total_items=0;
 
 function getSearch() {
     getList(
@@ -262,7 +263,13 @@ function getList(send, generatePagination) { //запрос на бэк
             html += '        </ul>';
             $('.album_container').append(html);
 
+            if(total_items!==data['total']&&!generatePagination){
+                getList( { page: 1, page_count: page_numb}, true);
+            }
+
             if (generatePagination && data['total']) pagination(data['total']);
+
+            total_items=data['total']
 
             setTimeout(function () {
                 $('body').removeClass('loading');
@@ -311,8 +318,7 @@ function pagination_click(pagination_pages, max) {//обработка клик�
     });
 
     $('.pagination_number').click(function () {
-        if (loader_flag)
-            return false;
+
 
         $('.pagination_number').removeClass("active");
         $(this).addClass("active");
@@ -322,6 +328,10 @@ function pagination_click(pagination_pages, max) {//обработка клик�
             page_count: page_numb
 
         });
+
+
+
+
 
         $('.pagination_container').empty();
         var pagination_buttons = '';
