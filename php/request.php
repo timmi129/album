@@ -13,26 +13,59 @@ function getArrayFromXML($str)
 function getList()
 {
 
-    echo json_encode($_POST);die;
+
     $returnArray = [];
-    $limit = '';
+
     if (isset($_POST['page']) && isset($_POST['page_count'])) {
-        $num = $_POST['page_count'] * $_POST['page'] - $_POST['page_count'];
-        $limit = " LIMIT " . $num . ", " . $_POST['page_count'];
+        $num = intval($_POST['page_count']) * intval($_POST['page']) - intval($_POST['page_count']);
+        $limit = " LIMIT " . $num . ", " . intval($_POST['page_count']);
     }else{
 
         $limit = " LIMIT 0,2";
     }
-    $sql='WHERE ((date>=:min_date OR :min_date1 IS NULL) 
-                                  AND (date<=:max_date OR :max_date1 IS NULL) OR date IS NULL)';
+    $addSql='';
+
+    $addArray=[];
+
+    foreach ($_POST['meta'] as $metaItem){
+
+        $firstFlag=true;
+
+        $addSqlLittle='';
+
+        foreach (explode(',',$metaItem['value']) as $key=>$item){
+
+            if(!empty($item)){
+                if($firstFlag){
+                    $addSqlLittle.=' meta LIKE ? ';
+                    $firstFlag=false;
+                }else{
+                    $addSqlLittle.=' OR meta LIKE ? ';
+                }
+                $addArray[]='%<'.$metaItem['name'].'>'.$item.'</'.$metaItem['name'].'>%';
+
+            }
+        }
+
+        if($addSqlLittle!=''){
+            $addSql.=' AND ( '.$addSqlLittle." )";
+        }
 
 
-    $paramsArray= [
-        'min_date'=>!empty($_POST['min_date'])?$_POST['min_date']:null,
-        'min_date1'=>!empty($_POST['min_date'])?$_POST['min_date']:null,
-        'max_date'=>!empty($_POST['max_date'])?$_POST['max_date']:null,
-        'max_date1'=>!empty($_POST['max_date'])?$_POST['max_date']:null,
-    ];
+    }
+
+
+    $sql='WHERE ((date>=? OR ? IS NULL) 
+                                  AND (date<=? OR ? IS NULL) OR date IS NULL)'.$addSql;
+
+
+    $paramsArray= array_merge ([
+        !empty($_POST['min_date'])?$_POST['min_date']:null,
+        !empty($_POST['min_date'])?$_POST['min_date']:null,
+        !empty($_POST['max_date'])?$_POST['max_date']:null,
+        !empty($_POST['max_date'])?$_POST['max_date']:null,
+
+    ],$addArray);
 
     $data = model::getInfo($sql, $limit,$paramsArray);
 

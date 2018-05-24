@@ -1,6 +1,3 @@
-
-
-
 var mas = {
     11: {
         src: "http://fotorelax.ru/wp-content/uploads/2016/02/Beautiful-photos-and-pictures-on-different-topics-01.jpg",
@@ -21,13 +18,13 @@ var mas = {
 
 
 };
-var min_date=null;
-var max_date=null;
-var page_numb = 2;
+var min_date = null;
+var max_date = null;
+var page_numb = 9;
 var pagination_pages = 0;
 var loader_flag = false;
 
-function getSearch(){
+function getSearch() {
     getList(
         {
             page: 1,
@@ -36,117 +33,6 @@ function getSearch(){
 
         }, true);
 }
-
-
-/*Настройки для фильтра*/
-
-    $.ajax({ // подтягиваем настройки поиска
-        type: "POST",
-        url: "/php/request.php/",
-        data: {request_type:"settings"},
-        beforeSend: function () {
-
-
-        },
-        success: function (data) {
-           // console.log(Date.parse(dt_to))
-            init_Range(data['date']['min'],data['date']['max']);
-
-            var html='<form>';
-            $(data['meta']).each(function (i, meta) {
-
-                html+=' <div  class="meta_container">\n' +
-                    '                    <p class="meta_name">'+meta['name']+':</p>\n    <div class="checkbox_cont">';
-
-
-                $(meta['list']).each(function (key, meta_list) {
-
-                    html+='<div class="checkbox_item">'+
-                        '<input type="checkbox" id="'+meta['meta']+'_'+key+'"  value="Казань">'+
-                       ' <label for="'+meta['meta']+'_'+key+'">'+meta_list+'</label>'+
-                      '  </div>';
-
-
-                });
-
-
-                html+='</div><input  type="hidden" class="help_input" name="'+meta['meta']+'" value="">\n</div>';
-            });
-            html+='</form>';
-            $('.meta_items').append(html);
-
-
-
-            $(".meta_name").next(".checkbox_cont").hide();
-
-            $(".meta_name").click(function () {
-                $(this).next(".checkbox_cont").toggle()
-            });
-
-
-
-
-                $(' :checkbox').change(function() {
-                    // console.log($(this));
-
-                    if (this.checked) {
-                        console.log(1);
-                    } else {
-                        console.log(2);
-                    }
-                });
-          
-        }
-    });
-
-
-
-//
-
-function init_Range(dt_from,dt_to) { // запускаем слайдер
-    //console.log(dt_from);
-    $('.slider-time').html(formatDT(new Date(dt_from*1000)));
-    $('.slider-time2').html(formatDT(new Date(dt_to*1000)));
-    var min_val =parseInt(dt_from); //Date.parse(dt_from)/1000;
-    var max_val = parseInt(dt_to);//Date.parse(dt_to)/1000;
-//console.log(min_val);
-    function zeroPad(num, places) {
-        var zero = places - num.toString().length + 1;
-        return Array(+(zero > 0 && zero)).join("0") + num;
-    }
-    function formatDT(__dt) {
-
-        var year = __dt.getFullYear();
-        var month = zeroPad(__dt.getMonth()+1, 2);
-        var date = zeroPad(__dt.getDate(), 2);
-        var hours = zeroPad(__dt.getHours(), 2);
-        var minutes = zeroPad(__dt.getMinutes(), 2);
-        var seconds = zeroPad(__dt.getSeconds(), 2);
-        return year + '-' + month + '-' + date + ' ' + hours + ':' + minutes + ':' + seconds;
-    };
-
-    min_date=min_val;
-    max_date=max_val;
-    $("#slider-range").slider({
-        range: true,
-        min: min_val,
-        max: max_val,
-        step: 10,
-        values: [min_val, max_val],
-        slide: function (e, ui) {
-            min_date=ui.values[0];
-            max_date=ui.values[1];
-            var dt_cur_from = new Date(ui.values[0]*1000); //.format("yyyy-mm-dd hh:ii:ss");
-            $('.slider-time').html(formatDT(dt_cur_from));
-
-            var dt_cur_to = new Date(ui.values[1]*1000); //.format("yyyy-mm-dd hh:ii:ss");
-            $('.slider-time2').html(formatDT(dt_cur_to));
-        }
-    });
-}
-
-
-/*Настройки для фильтра*/
 
 
 /* Альбом */
@@ -324,24 +210,33 @@ img_zoom.onmousedown = function (e) {
 /*Пагинация*/
 
 
-
 function getList(send, generatePagination) { //запрос на бэк
     $.ajax({
         type: "POST",
         url: "/php/request.php/",
-        data: $.extend(send, { min_date:min_date,
-            max_date:max_date,meta:$( "form" ).serializeArray()}),
+        data: $.extend(send, {
+            min_date: min_date,
+            max_date: max_date, meta: $("form").serializeArray()
+        }),
         beforeSend: function () {
+            $(".meta_name").next(".checkbox_cont").hide();
+            $('body').addClass('loading');
 
-            //  loader_flag = true;
-            //loader_cont.append('<div class="register_loader"></div>');
         },
         success: function (data) {
+            $('.album_container').empty();
+            if(data['total']<=0){
 
+                $('.album_container').append("<span class=\"error\">К сожалению, ничего не найдено:(</span>");
+                setTimeout(function () {
+                    $('body').removeClass('loading');
+                }, 1000);
+                return false;
+            }
             var html = '';
 
 
-            $('.album_container').empty();
+
             if (data.length <= 0) {
                 html = '<p class=\'register_error\'>По вашему запросу ничего не найдено</p>'
                 $('.pagination_container').empty();
@@ -367,7 +262,12 @@ function getList(send, generatePagination) { //запрос на бэк
             html += '        </ul>';
             $('.album_container').append(html);
 
-            if (generatePagination&&data['total']) pagination(data['total']);
+            if (generatePagination && data['total']) pagination(data['total']);
+
+            setTimeout(function () {
+                $('body').removeClass('loading');
+            }, 1000);
+
         }
     });
 
@@ -529,7 +429,143 @@ function pagination_button_help_click(pagination_pages) {//клики на << < 
     });
 }
 
-getList({page: 1, page_count: page_numb}, true); //при первой загрузке нужно сделать запрос
-/*Пагинация*/
+$(document).ready(function () {
+
+    /*Пагинация*/
 
 
+    /*Настройки для фильтра*/
+
+    $.ajax({ // подтягиваем настройки поиска
+        type: "POST",
+        url: "/php/request.php/",
+        data: {request_type: "settings"},
+        beforeSend: function () {
+
+
+        },
+        success: function (data) {
+            // console.log(Date.parse(dt_to))
+            init_Range(data['date']['min'], data['date']['max']);
+
+            var html = '<form>';
+            $(data['meta']).each(function (i, meta) {
+
+                html += ' <div  class="meta_container">\n' +
+                    '                    <p class="meta_name">' + meta['name'] + ':</p>\n    <div class="checkbox_cont">';
+
+
+                $(meta['list']).each(function (key, meta_list) {
+
+                    html += '<div class="checkbox_item checkbox">' +
+                        '<input type="checkbox" id="' + meta['meta'] + '_' + key + '" class="checkbox__input"  value="' + meta_list + '">' +
+                        ' <label class="checkbox__label" for="' + meta['meta'] + '_' + key + '">' + meta_list + '</label>' +
+                        '  </div>';
+
+
+                });
+
+
+                html += '</div><input  type="hidden" class="help_input" name="' + meta['meta'] + '" value="">\n</div>';
+            });
+            html += '</form>';
+
+            $('.meta_items').append(html);
+            metaInit();
+
+
+            getList({page: 1, page_count: page_numb}, true);
+
+        }
+    });
+
+
+    function metaInit() {
+
+
+        $(".meta_name").next(".checkbox_cont").hide();
+
+
+        $(".meta_name").click(function () {
+
+
+            if($(this).next(".checkbox_cont").css('display')=='none'){
+                $(".meta_name").next(".checkbox_cont").hide();
+                $(this).next(".checkbox_cont").toggle()
+            }else{
+
+                $(".meta_name").next(".checkbox_cont").hide();
+
+            }
+
+
+        });
+
+
+
+
+        $(' :checkbox').change(function () {
+            // console.log($(this));
+            var help_input = $(this).parents('.meta_container').find('.help_input');
+            var str = $(this).val();
+            console.log();
+            if (this.checked) {
+                help_input.val(help_input.val() + str + ',');
+
+            } else {
+
+                help_input.val(help_input.val().replace(str + ',', ''));
+            }
+        });
+    }
+
+//
+
+    function init_Range(dt_from, dt_to) { // запускаем слайдер
+        //console.log(dt_from);
+        $('.slider-time').html(formatDT(new Date(dt_from * 1000)));
+        $('.slider-time2').html(formatDT(new Date(dt_to * 1000)));
+        var min_val = parseInt(dt_from); //Date.parse(dt_from)/1000;
+        var max_val = parseInt(dt_to);//Date.parse(dt_to)/1000;
+//console.log(min_val);
+        function zeroPad(num, places) {
+            var zero = places - num.toString().length + 1;
+            return Array(+(zero > 0 && zero)).join("0") + num;
+        }
+
+        function formatDT(__dt) {
+
+            var year = __dt.getFullYear();
+            var month = zeroPad(__dt.getMonth() + 1, 2);
+            var date = zeroPad(__dt.getDate(), 2);
+            var hours = zeroPad(__dt.getHours(), 2);
+            var minutes = zeroPad(__dt.getMinutes(), 2);
+            var seconds = zeroPad(__dt.getSeconds(), 2);
+            return year + '-' + month + '-' + date + ' ' + hours + ':' + minutes + ':' + seconds;
+        };
+
+        min_date = min_val;
+        max_date = max_val;
+        $("#slider-range").slider({
+            range: true,
+            min: min_val,
+            max: max_val,
+            step: 10,
+            values: [min_val, max_val],
+            slide: function (e, ui) {
+                min_date = ui.values[0];
+                max_date = ui.values[1];
+                var dt_cur_from = new Date(ui.values[0] * 1000); //.format("yyyy-mm-dd hh:ii:ss");
+                $('.slider-time').html(formatDT(dt_cur_from));
+
+                var dt_cur_to = new Date(ui.values[1] * 1000); //.format("yyyy-mm-dd hh:ii:ss");
+                $('.slider-time2').html(formatDT(dt_cur_to));
+            }
+        });
+    }
+
+
+    /*Настройки для фильтра*/
+
+
+});
