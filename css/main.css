@@ -1,6 +1,8 @@
 body {
     margin: 0;
     overflow: hidden;
+    background-color: #8c8b9e;
+    color: white;
 }
 
 ul li {
@@ -8,9 +10,11 @@ ul li {
 }
 
 .wrap {
-    width: 80%;
+    width: 70%;
     margin: 0 auto;
     height: 100%;
+    padding-top: 45px;
+
 }
 
 .info_container {
@@ -21,7 +25,11 @@ ul li {
     float: left;
     width: 200px;
     height: 100px;
-    margin-right: 10px
+    margin-right: 10px;
+    margin-bottom: 10px;
+
+
+
 
 }
 
@@ -31,13 +39,14 @@ ul li {
     height: 100%;
 
     cursor: pointer;
+    border: 2px solid #7f728c;
 }
 
 #big_img {
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: rgba(21, 36, 56, 0.7);
+    background-color: rgba(21, 36, 56, 0.5);
     display: none;
     z-index: 100500;
 }
@@ -47,10 +56,9 @@ ul li {
     cursor: pointer;
 
     top: 50%;
-    width: 65px;
-    border-radius: 50%;
-    background-color: rgba(27, 149, 27, 0.4);
 
+    border-radius: 50%;
+    background-color: rgba(27, 133, 27, 0.45);
     background-repeat: no-repeat;
     background-size: contain;
     width: 65px;
@@ -58,7 +66,7 @@ ul li {
 }
 
 .left_arrow:hover, .right_arrow:hover {
-    background-color: rgba(30, 123, 30, 0.6);
+    background-color: rgba(23, 106, 23, 0.6);
 }
 
 .left_arrow img, .right_arrow img {
@@ -133,7 +141,7 @@ ul li {
 .img_zoom {
     display: block;
     max-width: 80%;
-    margin: 100px auto;
+    margin: 65px auto;
     cursor: move;
 }
 
@@ -159,6 +167,7 @@ ul li {
     -moz-transition: all 1s ease-out;
     -o-transition: all 1s ease-out;
     -webkit-transition: all 1s ease-out;
+
 }
 
 .image_cont img:hover{
@@ -189,7 +198,7 @@ ul li {
 }
 
 .album_container{
-    height: 70%;
+    height: 40%;
 }
 
 .pagination_container{
@@ -216,7 +225,7 @@ ul li {
 
 #time-range p {
     font-family:"Arial", sans-serif;
-    font-size:14px;
+    font-size:16px;
     color:#333;
 }
 .ui-slider-horizontal {
@@ -316,12 +325,56 @@ ul li {
 
 
 
-
-
-
 .search_button{
-    width: 50px;
-    height: 40px;
-    background-color: orange;
-    cursor:pointer;
+    width: 160px;
+    text-align: center;
+    font-size: 23px;
+    padding-top: 10px;
+    height: 35px;
+    border-radius: 16px;
+    margin: 0 auto;
+    background-color: #3175b2;
+    cursor: pointer;
+}
+
+#time-range{
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.filter_container{
+    border: 2px solid #7f728c;
+    background-color: #c4cffa2e;
+
+    border-radius: 31px;
+    padding: 15px;
+}
+
+
+.slider-time,.slider-time2{
+    font-weight: bold;
+}
+
+.meta_container{
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 15px;
+    margin-top: 10px;
+}
+.checkbox_item{
+
+}
+
+.meta_name{
+    margin: 0;
+    margin-bottom: 15px;
+}
+
+
+form{
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 20px;
 }

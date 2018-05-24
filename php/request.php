@@ -2,19 +2,7 @@
 require_once('model.php');
 header('Content-Type: application/json');
 
-//function getRequestParams(){
-//    $queryString = $_SERVER['QUERY_STRING'];
-//
-//    if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST') {
-//
-//        $request = file_get_contents('php://input');
-//        $actionParams = json_decode($request, true);
-//        // $this->isPostRequest = true;
-//    } else
-//        parse_str($queryString, $actionParams);
-//
-//    return $actionParams;
-//}
+
 function getArrayFromXML($str)
 {
     return simplexml_load_string("<?xml version='1.0'?> 
@@ -25,7 +13,7 @@ function getArrayFromXML($str)
 function getList()
 {
 
-
+    echo json_encode($_POST);die;
     $returnArray = [];
     $limit = '';
     if (isset($_POST['page']) && isset($_POST['page_count'])) {
@@ -72,6 +60,19 @@ function getSettings(){
     $returnArray=[];
     $returnArray['date']['min']=$date['min_date'];
     $returnArray['date']['max']=$date['max_date'];
+    $metaNames=[];
+    foreach (model::getMetaNames() as $meta) {
+        $metaNames[$meta['meta']] = $meta['name'];
+    }
+    $info=model::getMetaInfo();
+
+
+    foreach ($info as $item){
+        $returnArray['meta'][$item['type_meta']]['name']=$metaNames[$item['type_meta']];
+        $returnArray['meta'][$item['type_meta']]['meta']=$item['type_meta'];
+        $returnArray['meta'][$item['type_meta']]['list'][]=$item['info'];
+    }
+    $returnArray['meta']=array_values( $returnArray['meta']);
     return $returnArray;
 }
 

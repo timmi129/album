@@ -19,6 +19,10 @@ class model
 
         return db::select('SELECT  * FROM meta_name ');
     }
+    public static function getMetaInfo(){
+
+        return db::select('SELECT  * FROM meta_info ');
+    }
 
     public static function getColumns($where='',$params=[])
     {

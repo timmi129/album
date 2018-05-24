@@ -1,3 +1,6 @@
+
+
+
 var mas = {
     11: {
         src: "http://fotorelax.ru/wp-content/uploads/2016/02/Beautiful-photos-and-pictures-on-different-topics-01.jpg",
@@ -24,7 +27,7 @@ var page_numb = 2;
 var pagination_pages = 0;
 var loader_flag = false;
 
-function search(){
+function getSearch(){
     getList(
         {
             page: 1,
@@ -34,9 +37,10 @@ function search(){
         }, true);
 }
 
+
 /*Настройки для фильтра*/
 
-    $.ajax({
+    $.ajax({ // подтягиваем настройки поиска
         type: "POST",
         url: "/php/request.php/",
         data: {request_type:"settings"},
@@ -45,10 +49,53 @@ function search(){
 
         },
         success: function (data) {
-
-
            // console.log(Date.parse(dt_to))
             init_Range(data['date']['min'],data['date']['max']);
+
+            var html='<form>';
+            $(data['meta']).each(function (i, meta) {
+
+                html+=' <div  class="meta_container">\n' +
+                    '                    <p class="meta_name">'+meta['name']+':</p>\n    <div class="checkbox_cont">';
+
+
+                $(meta['list']).each(function (key, meta_list) {
+
+                    html+='<div class="checkbox_item">'+
+                        '<input type="checkbox" id="'+meta['meta']+'_'+key+'"  value="Казань">'+
+                       ' <label for="'+meta['meta']+'_'+key+'">'+meta_list+'</label>'+
+                      '  </div>';
+
+
+                });
+
+
+                html+='</div><input  type="hidden" class="help_input" name="'+meta['meta']+'" value="">\n</div>';
+            });
+            html+='</form>';
+            $('.meta_items').append(html);
+
+
+
+            $(".meta_name").next(".checkbox_cont").hide();
+
+            $(".meta_name").click(function () {
+                $(this).next(".checkbox_cont").toggle()
+            });
+
+
+
+
+                $(' :checkbox').change(function() {
+                    // console.log($(this));
+
+                    if (this.checked) {
+                        console.log(1);
+                    } else {
+                        console.log(2);
+                    }
+                });
+          
         }
     });
 
@@ -283,7 +330,7 @@ function getList(send, generatePagination) { //запрос на бэк
         type: "POST",
         url: "/php/request.php/",
         data: $.extend(send, { min_date:min_date,
-            max_date:max_date}),
+            max_date:max_date,meta:$( "form" ).serializeArray()}),
         beforeSend: function () {
 
             //  loader_flag = true;
@@ -320,7 +367,7 @@ function getList(send, generatePagination) { //запрос на бэк
             html += '        </ul>';
             $('.album_container').append(html);
 
-            if (generatePagination) pagination(data['total']);
+            if (generatePagination&&data['total']) pagination(data['total']);
         }
     });
 
@@ -484,4 +531,5 @@ function pagination_button_help_click(pagination_pages) {//клики на << < 
 
 getList({page: 1, page_count: page_numb}, true); //при первой загрузке нужно сделать запрос
 /*Пагинация*/
+
 
